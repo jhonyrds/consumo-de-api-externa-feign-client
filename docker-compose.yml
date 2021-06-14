@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "1800:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 22191051
+      MYSQL_DATABASE: viacep
+
+  viacep:
+    build:
+      dockerfile: ./DockerFile
+      context: .
+    image: viacep
+    environment:
+      DB_URL: jdbc:mysql://mysql/viacep
+        DB_USER: root
+        DB_PASSWORD: password
+    restart: always
+    ports:
+    - "8085:8080"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-volume:
